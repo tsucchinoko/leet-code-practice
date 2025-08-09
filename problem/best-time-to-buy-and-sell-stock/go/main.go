@@ -1,6 +1,6 @@
 package main
 
-func MaxProfit(prices []int) int {
+func maxProfit(prices []int) int {
 	// 購入日のインデックスを初日で初期化
 	left := 0
 	// 当日に売却はできないため、売却日のインデックスを翌日で初期化
@@ -24,7 +24,7 @@ func MaxProfit(prices []int) int {
 	return maxProfit
 }
 
-func MaxProfit2(prices []int) int {
+func maxProfit2(prices []int) int {
 	minPrice := prices[0]
 	maxProfit := 0
 
