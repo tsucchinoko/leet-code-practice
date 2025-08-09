@@ -14,7 +14,7 @@ func TestMaxProfit(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		got := MaxProfit(tt.prices)
+		got := maxProfit(tt.prices)
 		if got != tt.want {
 			t.Errorf("MaxProfit(%v) = %d; want %d", tt.prices, got, tt.want)
 		}
@@ -31,7 +31,7 @@ func TestMaxProfit2(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		got := MaxProfit2(tt.prices)
+		got := maxProfit2(tt.prices)
 		if got != tt.want {
 			t.Errorf("MaxProfit(%v) = %d; want %d", tt.prices, got, tt.want)
 		}

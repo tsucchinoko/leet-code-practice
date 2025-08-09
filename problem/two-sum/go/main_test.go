@@ -6,7 +6,7 @@ func TestTwoSum(t *testing.T) {
 	nums := []int{2, 7, 11, 15}
 	target := 9
 	want := []int{0, 1}
-	got := TwoSum(nums, target)
+	got := twoSum(nums, target)
 	if len(got) != len(want) {
 		t.Errorf("length mismatch")
 		return

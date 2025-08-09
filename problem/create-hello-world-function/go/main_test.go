@@ -23,7 +23,7 @@ func TestCreateHelloWorld(t *testing.T) {
 	}
 	for _, tc := range test {
 		t.Run(tc.name, func(t *testing.T) {
-			result := CreateHelloWorld(tc.args...)
+			result := createHelloWorld(tc.args...)
 			if result() != tc.expected {
 				t.Errorf("Expected '%s', got '%s'", tc.expected, result())
 			}
