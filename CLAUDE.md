@@ -1,64 +1,107 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+このファイルは、このリポジトリでコードを扱う際のClaude Code (claude.ai/code)への指示を提供します。
 
-## Repository Overview
-This is a LeetCode practice repository for studying algorithms and data structures. Each problem is self-contained in its own directory under `/problem/` with language-specific implementations (currently Go).
+## リポジトリ概要
+これはアルゴリズムとデータ構造を学習するためのLeetCode練習用リポジトリです。各問題は`/problem/`配下の独自ディレクトリに独立して配置され、言語別の実装（GoとTypeScript/Deno）が含まれています。
 
-## Project Structure
+## プロジェクト構造
 ```
 problem/
 ├── {problem-name}/
-│   └── go/
-│       ├── README.md     # Problem explanation in Japanese
-│       ├── go.mod        # Independent Go module
-│       ├── main.go       # Solution implementation
-│       └── main_test.go  # Unit tests
+│   ├── go/
+│   │   ├── README.md     # 問題の解説（日本語）
+│   │   ├── go.mod        # 独立したGoモジュール
+│   │   ├── main.go       # ソリューション実装
+│   │   └── main_test.go  # ユニットテスト
+│   └── ts/
+│       ├── README.md     # 問題の解説（日本語）
+│       ├── deno.json     # Deno設定ファイル
+│       ├── main.ts       # ソリューション実装
+│       └── main_test.ts  # ユニットテスト
 ```
 
-## Common Commands
+## 共通コマンド
 
-### Testing a Solution
-Navigate to the problem's Go directory first:
+### Go実装の場合
+
+#### ソリューションのテスト
+問題のGoディレクトリに移動してから実行:
 ```bash
 cd problem/{problem-name}/go/
 
-# Run tests with verbose output
+# 詳細出力付きでテスト実行
 go test -v
 
-# Run tests with coverage
+# カバレッジ付きでテスト実行
 go test -cover
 
-# Run a specific test
+# 特定のテストを実行
 go test -v -run TestFunctionName
 ```
 
-### Running a Solution
+#### ソリューションの実行
 ```bash
 cd problem/{problem-name}/go/
 go run main.go
 ```
 
-### Adding a New Problem
-1. Create directory structure: `problem/{problem-name}/go/`
-2. Initialize Go module: `go mod init github.com/tsucchinoko/{abbreviated-name}`
-3. Create `main.go` with solution and `main_test.go` with tests
-4. Optionally add `README.md` explaining the approach
+#### 新しい問題の追加（Go）
+1. ディレクトリ構造を作成: `problem/{problem-name}/go/`
+2. Goモジュールを初期化: `go mod init github.com/tsucchinoko/{abbreviated-name}`
+3. `main.go`にソリューション、`main_test.go`にテストを作成
+4. 必要に応じて`README.md`でアプローチを説明
 
-## Module Naming Convention
-Each problem uses an independent Go module with naming pattern:
-- Module: `github.com/tsucchinoko/{abbreviated-problem-name}`
-- Examples: `twosum`, `best-buy`, `create-hello-world-fn`
+### Deno/TypeScript実装の場合
 
-## Code Conventions
-- Function names match LeetCode problem names (e.g., `TwoSum`, `MaxProfit`)
-- Include Japanese comments explaining algorithm logic
-- Use table-driven tests where appropriate
-- Each solution should have comprehensive test coverage
-- Document time and space complexity in comments
+#### ソリューションのテスト
+問題のTypeScriptディレクトリに移動してから実行:
+```bash
+cd problem/{problem-name}/ts/
 
-## Key Architecture Decisions
-- **Independent Modules**: Each problem is a separate Go module (no shared dependencies)
-- **Language Separation**: Problems organized by language under `/problem/{name}/{language}/`
-- **Self-Contained**: Each problem includes implementation, tests, and documentation
-- **Educational Focus**: Detailed Japanese documentation explaining approaches and complexity
+# テスト実行
+deno test
+
+# 詳細出力付きでテスト実行
+deno test --allow-all
+
+# 特定のテストファイルを実行
+deno test main_test.ts
+```
+
+#### ソリューションの実行
+```bash
+cd problem/{problem-name}/ts/
+deno run main.ts
+```
+
+#### 新しい問題の追加（Deno）
+1. ディレクトリ構造を作成: `problem/{problem-name}/ts/`
+2. Denoプロジェクトを初期化: `deno init`
+3. `main.ts`にソリューション、`main_test.ts`にテストを作成
+4. 必要に応じて`README.md`でアプローチを説明
+
+## 命名規則
+
+### Goモジュール
+各問題は独立したGoモジュールを使用し、以下の命名パターンに従います:
+- モジュール: `github.com/tsucchinoko/{abbreviated-problem-name}`
+- 例: `twosum`, `best-buy`, `create-hello-world-fn`
+
+### TypeScript/Denoファイル
+- メインファイル: `main.ts`
+- テストファイル: `main_test.ts`
+- 関数名はLeetCodeの問題名に準拠
+
+## コード規約
+- 関数名はLeetCodeの問題名に合わせる（例: Go: `TwoSum`, `MaxProfit` / TypeScript: `twoSum`, `maxProfit`）
+- アルゴリズムのロジックを説明する日本語コメントを含める
+- 適切な場合はテーブル駆動テストを使用
+- 各ソリューションには包括的なテストカバレッジを含める
+- コメントで時間計算量と空間計算量を文書化
+
+## 主要なアーキテクチャの決定事項
+- **独立モジュール**: 各問題は独立したモジュール（共有依存関係なし）
+- **言語分離**: 問題は`/problem/{name}/{language}/`配下で言語別に整理
+- **自己完結型**: 各問題には実装、テスト、ドキュメントが含まれる
+- **教育重視**: アプローチと計算量を説明する詳細な日本語ドキュメント
