@@ -1,0 +1,89 @@
+# Lefthook configuration for LeetCode practice repository
+
+pre-push:
+  parallel: true
+  commands:
+    format-go:
+      glob: "problem/**/go/*.go"
+      run: |
+        for file in {staged_files}; do
+          gofmt -w "$file"
+          goimports -w "$file" 2>/dev/null || true
+        done
+
+    format-ts:
+      glob: "problem/**/ts/*.ts"
+      run: |
+        for file in {staged_files}; do
+          deno fmt "$file"
+        done
+
+    format-md:
+      glob: "**/*.md"
+      run: |
+        for file in {staged_files}; do
+          deno fmt "$file"
+        done
+
+    format-yml:
+      glob: "**/*.{yml,yaml}"
+      run: |
+        for file in {staged_files}; do
+          deno fmt "$file"
+        done
+
+    test-go:
+      glob: "problem/**/go/*.go"
+      run: |
+        for dir in $(find problem -name "go" -type d); do
+          if [ -f "$dir/go.mod" ]; then
+            echo "Testing $dir"
+            (cd "$dir" && go test ./...)
+          fi
+        done
+
+    test-ts:
+      glob: "problem/**/ts/*.ts"
+      run: |
+        for dir in $(find problem -name "ts" -type d); do
+          if [ -f "$dir/deno.json" ] || [ -f "$dir/deno.jsonc" ]; then
+            echo "Testing $dir"
+            (cd "$dir" && deno test)
+          fi
+        done
+
+pre-commit:
+  parallel: true
+  commands:
+    format-go:
+      glob: "problem/**/go/*.go"
+      run: |
+        for file in {staged_files}; do
+          gofmt -w "$file"
+          goimports -w "$file" 2>/dev/null || true
+          git add "$file"
+        done
+
+    format-ts:
+      glob: "problem/**/ts/*.ts"
+      run: |
+        for file in {staged_files}; do
+          deno fmt "$file"
+          git add "$file"
+        done
+
+    format-md:
+      glob: "**/*.md"
+      run: |
+        for file in {staged_files}; do
+          deno fmt "$file"
+          git add "$file"
+        done
+
+    format-yml:
+      glob: "**/*.{yml,yaml}"
+      run: |
+        for file in {staged_files}; do
+          deno fmt "$file"
+          git add "$file"
+        done
