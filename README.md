@@ -1,8 +1,9 @@
 # leet-code-practice
+
 LeetCodeの勉強用リポジトリ
 
-
 ## Goで実装する場合
+
 ```bash
 # ディレクトリ作成と移動
 mkdir -p problem/<problem name>/go
@@ -19,6 +20,7 @@ go test -v
 ```
 
 ## Denoで実装する場合
+
 ```bash
 # ディレクトリ作成と移動
 mkdir -p problem/<problem name>/ts

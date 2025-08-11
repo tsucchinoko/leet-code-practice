@@ -1,9 +1,9 @@
 export function isValidParentheses(text: string): boolean {
   const pairs: Record<string, string> = {
-    ')': '(',
-    ']': '[',
-    '}': '{',
-    '>': '<'
+    ")": "(",
+    "]": "[",
+    "}": "{",
+    ">": "<",
   } as const;
 
   const stack: string[] = [];

@@ -1,4 +1,7 @@
-import { assertEquals, assertThrows } from "https://deno.land/std@0.224.0/assert/mod.ts";
+import {
+  assertEquals,
+  assertThrows,
+} from "https://deno.land/std@0.224.0/assert/mod.ts";
 import { twoSum } from "./main.ts";
 
 Deno.test("twoSum - basic case", () => {
@@ -28,6 +31,6 @@ Deno.test("twoSum - no solution throws error", () => {
   assertThrows(
     () => twoSum(nums, target),
     Error,
-    "solution was not found!"
+    "solution was not found!",
   );
 });
