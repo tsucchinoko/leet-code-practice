@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -18,8 +19,8 @@ func TestMergeSortedArray(t *testing.T) {
 		{[]int{0}, 0, []int{1}, 1, []int{1}},
 	}
 
-	for _, tt := range tests {
-		t.Run("", func(t *testing.T) {
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("case%d", i+1), func(t *testing.T) {
 			merge(tt.nums1, tt.m, tt.nums2, tt.n)
 			if !reflect.DeepEqual(tt.nums1, tt.want) {
 				t.Errorf("got %v, want %v", tt.nums1, tt.want)
