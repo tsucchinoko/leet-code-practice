@@ -1,0 +1,82 @@
+version: "3"
+
+vars:
+  name: "{{.name}}"
+
+tasks:
+  new:
+    desc: Create a new LeetCode problem setup for both Go and TypeScript
+    cmds:
+      - task: new-go
+        vars: { name: "{{.name}}" }
+      - task: new-ts
+        vars: { name: "{{.name}}" }
+    requires:
+      vars: [name]
+
+  new-go:
+    desc: Create a new LeetCode problem setup for Go
+    cmds:
+      - mkdir -p problem/{{.name}}/go
+      - |
+        if [ ! -f problem/{{.name}}/README.md ]; then
+          cat > problem/{{.name}}/README.md << 'EOF'
+        # {{.name}}
+
+        ## 問題
+
+        [問題の説明をここに記載]
+
+        ## アプローチ
+
+        [解法のアプローチを記載]
+
+        ## 計算量
+
+        - 時間計算量: O(?)
+        - 空間計算量: O(?)
+        EOF
+        fi
+      - |
+        cd problem/{{.name}}/go && \
+        go mod init github.com/tsucchinoko/{{.name | replace " " "-" | lower}}
+      - touch problem/{{.name}}/go/main.go
+      - touch problem/{{.name}}/go/main_test.go
+    requires:
+      vars: [name]
+    silent: false
+
+  new-ts:
+    desc: Create a new LeetCode problem setup for TypeScript/Deno
+    cmds:
+      - mkdir -p problem/{{.name}}/ts
+      - |
+        if [ ! -f problem/{{.name}}/README.md ]; then
+          cat > problem/{{.name}}/README.md << 'EOF'
+        # {{.name}}
+
+        ## 問題
+
+        [問題の説明をここに記載]
+
+        ## アプローチ
+
+        [解法のアプローチを記載]
+
+        ## 計算量
+
+        - 時間計算量: O(?)
+        - 空間計算量: O(?)
+        EOF
+        fi
+      - cd problem/{{.name}}/ts && deno init --quiet
+      - touch problem/{{.name}}/ts/main.ts
+      - touch problem/{{.name}}/ts/main_test.ts
+    requires:
+      vars: [name]
+    silent: false
+
+  list:
+    desc: List all problems
+    cmds:
+      - ls -la problem/
