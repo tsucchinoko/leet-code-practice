@@ -23,18 +23,14 @@ tasks:
           cat > problem/{{.name}}/README.md << 'EOF'
         # {{.name}}
 
-        ## 問題
+        ## 制約
 
-        [問題の説明をここに記載]
+        [ここに制約を記載]
 
         ## アプローチ
 
         [解法のアプローチを記載]
 
-        ## 計算量
-
-        - 時間計算量: O(?)
-        - 空間計算量: O(?)
         EOF
         fi
       - |
@@ -55,18 +51,14 @@ tasks:
           cat > problem/{{.name}}/README.md << 'EOF'
         # {{.name}}
 
-        ## 問題
+        ## 制約
 
-        [問題の説明をここに記載]
+        [ここに制約を記載]
 
         ## アプローチ
 
         [解法のアプローチを記載]
 
-        ## 計算量
-
-        - 時間計算量: O(?)
-        - 空間計算量: O(?)
         EOF
         fi
       - cd problem/{{.name}}/ts && deno init --quiet
