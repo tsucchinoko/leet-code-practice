@@ -24,6 +24,11 @@ profile.cov
 go.work
 go.work.sum
 
+# Zig build artifacts
+.zig-cache/
+zig-out/
+
+
 # env file
 .env
 
