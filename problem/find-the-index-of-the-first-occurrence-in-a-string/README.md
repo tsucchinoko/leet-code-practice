@@ -141,3 +141,103 @@ func TestStrStr(t *testing.T) {
   を返すのが一般的な定義です。
 - 性能が問題となる入力が想定されるなら、KMP
   実装に置き換えてください。必要であれば KMP 実装も提供します。
+
+---
+
+KMP の考え方（簡潔）
+
+- 前処理（LPS 配列 = longest proper prefix which is also suffix）を needle
+  に対して計算する。
+- LPS[k] は、needle[0..k]（長さ k+1
+  の部分）のうち、先頭からの最長の「真の接頭辞（proper
+  prefix）」であり、かつ末尾の「接尾辞（suffix）」でもある部分列の長さを表す。
+- これにより、不一致時に needle をどれだけシフトして次の比較位置 j
+  をどこに戻すか決められる。
+- マッチング（検索）は haystack を先頭から走査し、needle の位置 j を LPS
+  を使って動かしながら比較を進める。
+- 全体で文字比較は O(hn + nn)。 実装方針（ステップ）
+
+1. computeLPS(needle) を実装して LPS 配列を返す（長さ nn の配列）。
+2. KMP 本体で haystack を一巡するループを回し、i（haystack index） と j（needle
+   index）を更新。
+3. haystack[i] と needle[j] が一致すれば i++, j++。j が nn に達したら一致位置
+   i - j を返す。
+4. 不一致なら： ▪	j > 0 のとき j = lps[j-1]（部分一致長に戻す） ▪	j == 0 のとき
+   i++（開始位置を 1 進める）
+5. 最後まで一致しなければ -1 を返す。
+
+```go
+package main
+
+import "fmt"
+
+// computeLPS computes the LPS (longest proper prefix which is also suffix)
+// array for the pattern (needle).
+func computeLPS(pattern string) []int {
+    n := len(pattern)
+    lps := make([]int, n)
+    // length of the previous longest prefix suffix
+    length := 0
+    // lps[0] is always 0
+    lps[0] = 0
+    i := 1
+    for i < n {
+        if pattern[i] == pattern[length] {
+            length++
+            lps[i] = length
+            i++
+        } else {
+            if length != 0 {
+                // fallback to previous longest prefix suffix
+                length = lps[length-1]
+                // note: we do NOT increment i here
+            } else {
+                lps[i] = 0
+                i++
+            }
+        }
+    }
+    return lps
+}
+
+// kmpSearch returns the index of the first occurrence of needle in haystack using KMP,
+// or -1 if needle is not found.
+func kmpSearch(haystack, needle string) int {
+    hn, nn := len(haystack), len(needle)
+    if nn == 0 {
+        return 0
+    }
+    if nn > hn {
+        return -1
+    }
+
+    lps := computeLPS(needle)
+    i, j := 0, 0 // i: index for haystack, j: index for needle
+
+    for i < hn {
+        if haystack[i] == needle[j] {
+            i++
+            j++
+            if j == nn {
+                // match found at i - j
+                return i - j
+            }
+        } else {
+            if j != 0 {
+                // fallback in pattern using lps
+                j = lps[j-1]
+            } else {
+                // move to next character in haystack
+                i++
+            }
+        }
+    }
+    return -1
+}
+
+func main() {
+    fmt.Println(kmpSearch("sadbutsad", "sad"))  // 0
+    fmt.Println(kmpSearch("sadbutsad", "but"))  // 3
+    fmt.Println(kmpSearch("leetcode", "leeto")) // -1
+}
+```
